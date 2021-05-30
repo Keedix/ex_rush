@@ -1,0 +1,44 @@
+<section role="utilities" class="h-32">
+ <%= live_patch "Sort by Player",  to: Routes.live_path(@socket, StatisticLive, %{"sort_by" => "Player"}) %>
+</section>
+
+<table class="mx-8 border-collapse border-2 border-black table-auto font-sans">
+  <thead>
+    <tr class="bg-gray-700 text-gray-200">
+      <th class="text-left border-2 border-black px-1">Player</th>
+      <th class="text-left border-2 border-black px-1">Team</th>
+      <th class="text-left border-2 border-black px-1">Position</th>
+      <th class="text-left border-2 border-black px-1">Rushing attempts per game average</th>
+      <th class="text-left border-2 border-black px-1">Rushing attempts</th>
+      <th class="text-left border-2 border-black px-1">Total rushing yards</th>
+      <th class="text-left border-2 border-black px-1">Rushing average yards per attempt</th>
+      <th class="text-left border-2 border-black px-1">Rushing yards per game</th>
+      <th class="text-left border-2 border-black px-1">Total rushing touchdowns</th>
+      <th class="text-left border-2 border-black px-1">Rushing first downs</th>
+      <th class="text-left border-2 border-black px-1">Rushing first down percentage</th>
+      <th class="text-left border-2 border-black px-1">Rushing 20</th>
+      <th class="text-left border-2 border-black px-1">Rushing 40</th>
+      <th class="text-left border-2 border-black px-1">Rushing fumbles</th>
+    </tr>
+  </thead>
+  <tbody id="statistics">
+    <%= for statistic <- @statistics do %>
+      <tr class="hover:bg-gray-200" id="statistic-<%= statistic.id %>">
+        <td class="pl-1 py-1 border-2 border-black"><%= statistic.player %></td>
+        <td class="pl-1 py-1 border-2 border-black"><%= statistic.team %></td>
+        <td class="pl-1 py-1 border-2 border-black"><%= statistic.position %></td>
+        <td class="pl-1 py-1 border-2 border-black"><%= statistic.rushing_attempts_per_game_average %></td>
+        <td class="pl-1 py-1 border-2 border-black"><%= statistic.rushing_attempts %></td>
+        <td class="pl-1 py-1 border-2 border-black"><%= statistic.total_rushing_yards %></td>
+        <td class="pl-1 py-1 border-2 border-black"><%= statistic.rushing_average_yards_per_attempt %></td>
+        <td class="pl-1 py-1 border-2 border-black"><%= statistic.rushing_yards_per_game %></td>
+        <td class="pl-1 py-1 border-2 border-black"><%= statistic.total_rushing_touchdowns %></td>
+        <td class="pl-1 py-1 border-2 border-black"><%= statistic.rushing_first_downs %></td>
+        <td class="pl-1 py-1 border-2 border-black"><%= statistic.rushing_first_down_percentage %></td>
+        <td class="pl-1 py-1 border-2 border-black"><%= statistic.rushing_20 %></td>
+        <td class="pl-1 py-1 border-2 border-black"><%= statistic.rushing_40 %></td>
+        <td class="pl-1 py-1 border-2 border-black"><%= statistic.rushing_fumbles %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
