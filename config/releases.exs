@@ -4,16 +4,12 @@
 # remember to add this file to your .gitignore.
 import Config
 
-database_url =
-  System.get_env("DATABASE_URL") ||
-    raise """
-    environment variable DATABASE_URL is missing.
-    For example: ecto://USER:PASS@HOST/DATABASE
-    """
-
 config :ex_rush, ExRush.Repo,
   # ssl: true,
-  url: database_url,
+  database: System.get_env("DB_NAME"),
+  username: System.get_env("DB_USERNAME"),
+  password: System.get_env("DB_PASSWORD"),
+  hostname: System.get_env("DB_HOSTNAME"),
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
 
 secret_key_base =
@@ -30,16 +26,6 @@ config :ex_rush, ExRushWeb.Endpoint,
   ],
   secret_key_base: secret_key_base,
   server: true
-
-ingestor_file_path =
-  System.get_env("INGESTOR_FILE_PATH") ||
-    raise """
-    environment variable INGESTOR_FILE_PATH is missing.
-    Path should be in JSON format.
-    """
-
-config :ex_rush,
-  ingestor_path: ingestor_file_path
 
 # ## Using releases (Elixir v1.9+)
 #

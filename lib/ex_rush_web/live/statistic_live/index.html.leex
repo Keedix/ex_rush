@@ -20,7 +20,7 @@
     <button  phx-click="clear" class="ml-2 px-4 border rounded-3xl h-10 hover:bg-blue-500 hover:text-white hover:border-blue-600 hover:cursor-pointer">Clear</button>
   </div>
 
-  <%= f = form_for :excel, Routes.csv_path(@socket, :download, @path), [class: "float-right"] %>
+  <%= form_for :excel, Routes.csv_path(@socket, :download, @path), [class: "float-right"] %>
     <div class="flex flex-wrap content-center h-full">
       <%= submit "Download CSV", class: "ml-2 px-4 border rounded-3xl h-10 bg-green-500 border-green-700 hover:bg-green-700 text-white hover:cursor-pointer" %>
     </div>

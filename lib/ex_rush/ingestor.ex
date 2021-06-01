@@ -18,7 +18,8 @@ defmodule ExRush.Ingestor do
 
   def handle_info(:timeout, path) do
     :ok =
-      path
+      :ex_rush
+      |> Application.app_dir(path)
       |> File.read!()
       |> Jason.decode!()
       |> Enum.each(fn statistic ->
