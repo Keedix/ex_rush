@@ -5,6 +5,8 @@ defmodule ExRush.Application do
 
   use Application
 
+  @path Application.fetch_env!(:ex_rush, :ingestor_path)
+
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
@@ -15,7 +17,8 @@ defmodule ExRush.Application do
       {Phoenix.PubSub, name: ExRush.PubSub},
       # Start the Endpoint (http/https)
       ExRushWeb.Endpoint,
-      {ExRush.Ingestor, "priv/data/rushing.json"}
+      {Cachex, name: ExRush.Statistics},
+      {ExRush.Ingestor, @path}
       # Start a worker by calling: ExRush.Worker.start_link(arg)
       # {ExRush.Worker, arg}
     ]
