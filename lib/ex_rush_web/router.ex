@@ -19,7 +19,8 @@ defmodule ExRushWeb.Router do
 
     # redirect to '/statistics'
     get "/", HomeController, :index
-    live "/statistics", StatisticLive.Index, :index
+    live "/statistics", StatisticLive.Index
+    post "/statistics/download", CsvController, :download
   end
 
   # Other scopes may use custom stacks.

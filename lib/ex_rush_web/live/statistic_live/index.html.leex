@@ -1,16 +1,46 @@
-<section role="utilities" class="h-32">
- <%= live_patch "Sort by Player",  to: Routes.live_path(@socket, StatisticLive, %{"sort_by" => "Player"}) %>
+<section role="utilities" class="flex content-center h-32 mx-8">
+  <%= f = form_for @changeset,"#", [phx_change: :autocomplete_player, phx_submit: :search] %>
+    <div class="flex flex-wrap content-center h-full">
+      <%= text_input f, :player ,
+        list: "datalist_player",
+        autocomplete: "off",
+        placeholder: gettext("Player"),
+        class: "border rounded py-2 px-3 text-grey-darkest h-10",
+        "phx-debounce": "100"
+      %>
+      <datalist id="datalist_player">
+      <%= for value <- @autocomplete_player do %>
+        <option value="<%= value.player %>">
+      <% end %>
+      </datalist>
+      <%= submit "Search", class: "ml-2 px-4 border rounded-3xl h-10 hover:bg-blue-500 hover:text-white hover:border-blue-600 hover:cursor-pointer" %>
+    </div>
+  </form>
+  <div class="flex flex-wrap content-center h-full">
+    <button  phx-click="clear" class="ml-2 px-4 border rounded-3xl h-10 hover:bg-blue-500 hover:text-white hover:border-blue-600 hover:cursor-pointer">Clear</button>
+  </div>
+
+  <%= f = form_for :excel, Routes.csv_path(@socket, :download, @path), [class: "float-right"] %>
+    <div class="flex flex-wrap content-center h-full">
+      <%= submit "Download CSV", class: "ml-2 px-4 border rounded-3xl h-10 bg-green-500 border-green-700 hover:bg-green-700 text-white hover:cursor-pointer" %>
+    </div>
+  </form>
 </section>
+
 
 <table class="mx-8 border-collapse border-2 border-black table-auto font-sans">
   <thead>
     <tr class="bg-gray-700 text-gray-200">
-      <th class="text-left border-2 border-black px-1">Player</th>
+      <th class="text-left border-2 border-black px-1">
+        <%= live_component ExRushWeb.OrderByComponent, title: gettext("Player"), order_by: "player" %>
+      </th>
       <th class="text-left border-2 border-black px-1">Team</th>
       <th class="text-left border-2 border-black px-1">Position</th>
       <th class="text-left border-2 border-black px-1">Rushing attempts per game average</th>
       <th class="text-left border-2 border-black px-1">Rushing attempts</th>
-      <th class="text-left border-2 border-black px-1">Total rushing yards</th>
+      <th class="text-left border-2 border-black px-1">
+        <%= live_component ExRushWeb.OrderByComponent, title: gettext("Total rushing yards"), order_by: "total_rushing_yards" %>
+      </th>
       <th class="text-left border-2 border-black px-1">Rushing average yards per attempt</th>
       <th class="text-left border-2 border-black px-1">Rushing yards per game</th>
       <th class="text-left border-2 border-black px-1">Total rushing touchdowns</th>
@@ -19,6 +49,9 @@
       <th class="text-left border-2 border-black px-1">Rushing 20</th>
       <th class="text-left border-2 border-black px-1">Rushing 40</th>
       <th class="text-left border-2 border-black px-1">Rushing fumbles</th>
+      <th class="text-left border-2 border-black px-1">
+        <%= live_component ExRushWeb.OrderByComponent, title: gettext("Longest rush"), order_by: "longest_rush" %>
+      </th>
     </tr>
   </thead>
   <tbody id="statistics">
@@ -38,6 +71,13 @@
         <td class="pl-1 py-1 border-2 border-black"><%= statistic.rushing_20 %></td>
         <td class="pl-1 py-1 border-2 border-black"><%= statistic.rushing_40 %></td>
         <td class="pl-1 py-1 border-2 border-black"><%= statistic.rushing_fumbles %></td>
+        <td class="pl-1 py-1 border-2 border-black">
+          <%= if statistic.is_longest_rush_touchdown do %>
+            <%= statistic.longest_rush %><%= gettext("T") %>
+          <% else %>
+            <%= statistic.longest_rush %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
