@@ -18,7 +18,65 @@ defmodule ExRush.Statistics do
 
   """
   def list_statistics do
-    Repo.all(Statistic)
+    {_, statistics} =
+      Cachex.fetch(__MODULE__, "all", fn ->
+        {:commit, Repo.all(Statistic)}
+      end)
+
+    statistics
+  end
+
+  # def list_statistics_by(%{player: player}) do
+  #   {_, statistics} =
+  #     Cachex.fetch(__MODULE__, "by_player_#{player}", fn ->
+  #       query = from(statistic in Statistic, where: statistic.player == ^player)
+  #       statistics = Repo.all(query)
+  #       {:commit, statistics}
+  #     end)
+
+  #   statistics
+  # end
+
+  def list_statistics_by(%{player: player}) do
+    query =
+      from(statistic in Statistic,
+        where:
+          fragment(
+            "to_tsvector('english', player) @@ to_tsquery(?)",
+            ^prefix_search(player)
+          )
+      )
+
+    Repo.all(query)
+  end
+
+  defp prefix_search(term), do: String.replace(term, ~r/\W/u, "") <> ":*"
+
+  @doc """
+  Returns the list of ordered by `order_by` statistics.
+
+  ## Examples
+
+      iex> list_statistics_by("player", "asc")
+      [%Statistic{}, ...]
+
+      iex> list_statistics_by("player", "desc")
+      [%Statistic{}, ...]
+  """
+  def list_statistics_by(order_by, direction) do
+    {_, statistics} =
+      Cachex.fetch(__MODULE__, "#{order_by}-#{direction}", fn ->
+        by = String.to_existing_atom(order_by)
+
+        statistics =
+          Statistic
+          |> choose_order_by(by, direction)
+          |> Repo.all()
+
+        {:commit, statistics}
+      end)
+
+    statistics
   end
 
   @doc """
@@ -53,6 +111,20 @@ defmodule ExRush.Statistics do
     %Statistic{}
     |> Statistic.changeset(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Upserts a statistic. In case of conflict, no operation is done.
+
+  ## Examples
+
+      iex> upsert_statistic!(attrs)
+      %Statistic{}
+  """
+  def upsert_statistic!(attrs \\ %{}) do
+    %Statistic{}
+    |> Statistic.changeset(attrs)
+    |> Repo.insert!(on_conflict: :nothing)
   end
 
   @doc """
@@ -100,5 +172,13 @@ defmodule ExRush.Statistics do
   """
   def change_statistic(%Statistic{} = statistic, attrs \\ %{}) do
     Statistic.changeset(statistic, attrs)
+  end
+
+  defp choose_order_by(query, order_by, "asc") do
+    order_by(query, asc: ^order_by)
+  end
+
+  defp choose_order_by(query, order_by, "desc") do
+    order_by(query, desc: ^order_by)
   end
 end

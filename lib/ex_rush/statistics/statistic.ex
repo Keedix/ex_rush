@@ -16,8 +16,11 @@ defmodule ExRush.Statistics.Statistic do
     field :rushing_yards_per_game, :float
     field :team, :string
     field :total_rushing_touchdowns, :integer
-    field :total_rushing_yards, :integer
-    field :longest_rush, :string
+    field :total_rushing_yards, ExRush.Types.MaybeFloat
+    field :longest_rush, :integer
+    field :is_longest_rush_touchdown, :boolean, default: false
+
+    field :longest_rush_with_touchdown, ExRush.Types.MaybeString, virtual: true
 
     timestamps()
   end
@@ -40,7 +43,7 @@ defmodule ExRush.Statistics.Statistic do
       :rushing_20,
       :rushing_40,
       :rushing_fumbles,
-      :longest_rush
+      :longest_rush_with_touchdown
     ])
     |> validate_required([
       :player,
@@ -57,8 +60,9 @@ defmodule ExRush.Statistics.Statistic do
       :rushing_20,
       :rushing_40,
       :rushing_fumbles,
-      :longest_rush
+      :longest_rush_with_touchdown
     ])
+    |> change_longest_rush()
     |> unique_constraint(
       [
         :player,
@@ -75,9 +79,34 @@ defmodule ExRush.Statistics.Statistic do
         :rushing_20,
         :rushing_40,
         :rushing_fumbles,
-        :longest_rush
+        :longest_rush,
+        :is_longest_rush_touchdown
       ],
       name: "stat_index"
     )
+  end
+
+  defp change_longest_rush(changeset) do
+    changeset
+    |> get_field(:longest_rush_with_touchdown)
+    |> change_longest_rush(changeset)
+  end
+
+  defp change_longest_rush(longest_rush, changeset) when is_nil(longest_rush), do: changeset
+  defp change_longest_rush(longest_rush, changeset) when is_integer(longest_rush), do: changeset
+
+  defp change_longest_rush(longest_rush, changeset) when is_binary(longest_rush) do
+    {number, touchdown?} =
+      case Regex.run(~r/(.*)(T)/, longest_rush) do
+        nil ->
+          {longest_rush, false}
+
+        [^longest_rush, number, _touchdown] ->
+          {number, true}
+      end
+
+    changeset
+    |> put_change(:longest_rush, String.to_integer(number))
+    |> put_change(:is_longest_rush_touchdown, touchdown?)
   end
 end

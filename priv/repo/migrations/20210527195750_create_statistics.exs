@@ -8,7 +8,7 @@ defmodule ExRush.Repo.Migrations.CreateStatistics do
       add :position, :string
       add :rushing_attempts_per_game_average, :float
       add :rushing_attempts, :integer
-      add :total_rushing_yards, :integer
+      add :total_rushing_yards, :float
       add :rushing_average_yards_per_attempt, :float
       add :rushing_yards_per_game, :float
       add :total_rushing_touchdowns, :integer
@@ -17,7 +17,8 @@ defmodule ExRush.Repo.Migrations.CreateStatistics do
       add :rushing_20, :integer
       add :rushing_40, :integer
       add :rushing_fumbles, :integer
-      add :longest_rush, :string
+      add :longest_rush, :integer
+      add :is_longest_rush_touchdown, :boolean
 
       timestamps()
     end
