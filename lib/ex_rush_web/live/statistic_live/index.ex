@@ -33,8 +33,7 @@ defmodule ExRushWeb.StatisticLive.Index do
 
   @impl true
   def handle_event("search", %{"_csrf_token" => _, "statistic" => %{"player" => player}}, socket) do
-    IO.puts("here")
-    statistics = list_statistics_for_player(player) |> IO.inspect()
+    statistics = list_statistics_for_player(player)
     path = Routes.live_path(socket, ExRushWeb.StatisticLive.Index, %{"player" => player})
 
     {:noreply,

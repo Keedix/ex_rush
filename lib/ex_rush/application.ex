@@ -4,6 +4,7 @@ defmodule ExRush.Application do
   @moduledoc false
 
   use Application
+  @mix_env Mix.env()
 
   def start(_type, _args) do
     children = [
@@ -15,11 +16,17 @@ defmodule ExRush.Application do
       {Phoenix.PubSub, name: ExRush.PubSub},
       # Start the Endpoint (http/https)
       ExRushWeb.Endpoint,
-      {Cachex, name: ExRush.Statistics},
-      {ExRush.Ingestor, "/priv/data/rushing.json"}
+      {Cachex, name: ExRush.Statistics}
       # Start a worker by calling: ExRush.Worker.start_link(arg)
       # {ExRush.Worker, arg}
     ]
+
+    children =
+      if @mix_env != :test do
+        children ++ [{ExRush.Ingestor, "/priv/data/rushing.json"}]
+      else
+        children
+      end
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
