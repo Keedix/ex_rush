@@ -52,7 +52,7 @@ FROM alpine:3.13 AS app
     RUN chown -R appuser: ./ex_rush
     # Tell docker that all future commands should run as the appuser user
     USER appuser
-
+    
     # Run start command from release. Other possible commands:
     # https://elixir-lang.org/blog/2019/06/24/elixir-v1-9-0-released/ 
-    CMD ["./ex_rush/bin/ex_rush", "start"]
+    CMD ./ex_rush/bin/ex_rush eval "ExRush.Release.migrate" && ./ex_rush/bin/ex_rush start
