@@ -1,5 +1,8 @@
 use Mix.Config
 
+config :ex_rush,
+  ingestor_path: "priv/data/rushing.json"
+
 # Configure your database
 config :ex_rush, ExRush.Repo,
   username: "postgres",
@@ -16,7 +19,7 @@ config :ex_rush, ExRush.Repo,
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :ex_rush, ExRushWeb.Endpoint,
-  http: [port: 4000],
+  http: [port: 4121],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
