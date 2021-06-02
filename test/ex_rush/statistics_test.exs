@@ -20,7 +20,8 @@ defmodule ExRush.StatisticsTest do
       rushing_yards_per_game: 120.5,
       team: "some team",
       total_rushing_touchdowns: 42,
-      total_rushing_yards: 42
+      total_rushing_yards: 42,
+      longest_rush_with_touchdown: "72"
     }
     @update_attrs %{
       player: "some updated player",
@@ -90,6 +91,7 @@ defmodule ExRush.StatisticsTest do
       assert statistic.team == "some team"
       assert statistic.total_rushing_touchdowns == 42
       assert statistic.total_rushing_yards == 42
+      assert statistic.longest_rush_with_touchdown == "72"
     end
 
     test "create_statistic/1 with invalid data returns error changeset" do
