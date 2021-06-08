@@ -66,13 +66,53 @@ defmodule ExRush.StatisticsTest do
     end
 
     test "list_statistics/0 returns all statistics" do
-      statistic = statistic_fixture()
-      assert Statistics.list_statistics() == [statistic]
+      statistic_fixture()
+
+      assert [
+               %Statistic{
+                 is_longest_rush_touchdown: false,
+                 longest_rush: 72,
+                 longest_rush_with_touchdown: nil,
+                 player: "some player",
+                 position: "some position",
+                 rushing_20: 42,
+                 rushing_40: 42,
+                 rushing_attempts: 42,
+                 rushing_attempts_per_game_average: 120.5,
+                 rushing_average_yards_per_attempt: 120.5,
+                 rushing_first_down_percentage: 120.5,
+                 rushing_first_downs: 42,
+                 rushing_fumbles: 42,
+                 rushing_yards_per_game: 120.5,
+                 team: "some team",
+                 total_rushing_touchdowns: 42,
+                 total_rushing_yards: 42.0
+               }
+             ] = Statistics.list_statistics()
     end
 
     test "get_statistic!/1 returns the statistic with given id" do
       statistic = statistic_fixture()
-      assert Statistics.get_statistic!(statistic.id) == statistic
+
+      assert %Statistic{
+               is_longest_rush_touchdown: false,
+               longest_rush: 72,
+               longest_rush_with_touchdown: nil,
+               player: "some player",
+               position: "some position",
+               rushing_20: 42,
+               rushing_40: 42,
+               rushing_attempts: 42,
+               rushing_attempts_per_game_average: 120.5,
+               rushing_average_yards_per_attempt: 120.5,
+               rushing_first_down_percentage: 120.5,
+               rushing_first_downs: 42,
+               rushing_fumbles: 42,
+               rushing_yards_per_game: 120.5,
+               team: "some team",
+               total_rushing_touchdowns: 42,
+               total_rushing_yards: 42.0
+             } = Statistics.get_statistic!(statistic.id)
     end
 
     test "create_statistic/1 with valid data creates a statistic" do
@@ -123,7 +163,26 @@ defmodule ExRush.StatisticsTest do
     test "update_statistic/2 with invalid data returns error changeset" do
       statistic = statistic_fixture()
       assert {:error, %Ecto.Changeset{}} = Statistics.update_statistic(statistic, @invalid_attrs)
-      assert statistic == Statistics.get_statistic!(statistic.id)
+
+      assert %Statistic{
+               is_longest_rush_touchdown: false,
+               longest_rush: 72,
+               longest_rush_with_touchdown: nil,
+               player: "some player",
+               position: "some position",
+               rushing_20: 42,
+               rushing_40: 42,
+               rushing_attempts: 42,
+               rushing_attempts_per_game_average: 120.5,
+               rushing_average_yards_per_attempt: 120.5,
+               rushing_first_down_percentage: 120.5,
+               rushing_first_downs: 42,
+               rushing_fumbles: 42,
+               rushing_yards_per_game: 120.5,
+               team: "some team",
+               total_rushing_touchdowns: 42,
+               total_rushing_yards: 42.0
+             } = Statistics.get_statistic!(statistic.id)
     end
 
     test "delete_statistic/1 deletes the statistic" do
