@@ -35,10 +35,10 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 To run the application and the database in the elixir release mode run:
 
 ```
-docker-compose -d up
+docker-compose up -d
 ```
 
-`ex_rush` should be accessible at [`http://localhost:4000`](http://localhost:4000)
+*ex_rush* should be accessible at [`http://localhost:4000`](http://localhost:4000)
 
 
 To stop containers run 

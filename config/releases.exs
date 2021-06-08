@@ -19,7 +19,7 @@ secret_key_base =
     You can generate one by calling: mix phx.gen.secret
     """
 
-port = String.to_integer(String.to_integer(System.get_env("PORT") || "4000"))
+port = String.to_integer(System.get_env("PORT") || "4000")
 
 config :ex_rush, ExRushWeb.Endpoint,
   http: [
