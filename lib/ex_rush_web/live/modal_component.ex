@@ -1,4 +1,6 @@
 defmodule ExRushWeb.ModalComponent do
+  @moduledoc false
+
   use ExRushWeb, :live_component
 
   @impl true

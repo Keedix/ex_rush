@@ -1,4 +1,18 @@
 defmodule ExRushWeb.StatisticLive.Index do
+  @moduledoc """
+  Handles main interactive table view.
+
+  Possible events which can be received:
+
+  - autocomplete_player (allows to find all player names)
+  - search (return results for the player name in pattern name*)
+  - clear (clears all the filters/searches)
+
+
+  `handle_params/3` handles URL manipulations. When accessing the url with defined
+  query, `StatisticLive` will try to load the correct data for given filters.
+  """
+
   use ExRushWeb, :live_view
 
   alias ExRush.Statistics

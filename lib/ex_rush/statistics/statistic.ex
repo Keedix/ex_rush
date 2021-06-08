@@ -1,4 +1,8 @@
 defmodule ExRush.Statistics.Statistic do
+  @moduledoc """
+  Statistic model
+  """
+
   use Ecto.Schema
   import Ecto.Changeset
 

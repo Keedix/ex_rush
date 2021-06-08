@@ -1,4 +1,8 @@
 defmodule ExRushWeb.OrderByComponent do
+  @moduledoc """
+  Wrapper around asc and desc arrow view for the table view.
+  """
+
   use ExRushWeb, :live_component
 
   @impl true

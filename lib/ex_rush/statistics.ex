@@ -26,17 +26,14 @@ defmodule ExRush.Statistics do
     statistics
   end
 
-  # def list_statistics_by(%{player: player}) do
-  #   {_, statistics} =
-  #     Cachex.fetch(__MODULE__, "by_player_#{player}", fn ->
-  #       query = from(statistic in Statistic, where: statistic.player == ^player)
-  #       statistics = Repo.all(query)
-  #       {:commit, statistics}
-  #     end)
+  @doc """
+  Returns the list of statistics filter by the player name.
 
-  #   statistics
-  # end
+  ## Examples
 
+      iex> list_statistics_by(%{player: "some player"})
+      [%Statistic{}, ...]
+  """
   def list_statistics_by(%{player: player}) do
     query =
       from(statistic in Statistic,

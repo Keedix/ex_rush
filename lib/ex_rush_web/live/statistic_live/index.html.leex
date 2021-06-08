@@ -34,21 +34,21 @@
       <th class="text-left border-2 border-black px-1">
         <%= live_component ExRushWeb.OrderByComponent, title: gettext("Player"), order_by: "player" %>
       </th>
-      <th class="text-left border-2 border-black px-1">Team</th>
-      <th class="text-left border-2 border-black px-1">Position</th>
-      <th class="text-left border-2 border-black px-1">Rushing attempts per game average</th>
-      <th class="text-left border-2 border-black px-1">Rushing attempts</th>
+      <th class="text-left border-2 border-black px-1"><%= gettext("Team") %></th>
+      <th class="text-left border-2 border-black px-1"><%= gettext("Position") %></th>
+      <th class="text-left border-2 border-black px-1"><%= gettext("Rushing attempts per game average") %>/th>
+      <th class="text-left border-2 border-black px-1"><%= gettext("Rushing attempts") %></th>
       <th class="text-left border-2 border-black px-1">
         <%= live_component ExRushWeb.OrderByComponent, title: gettext("Total rushing yards"), order_by: "total_rushing_yards" %>
       </th>
-      <th class="text-left border-2 border-black px-1">Rushing average yards per attempt</th>
-      <th class="text-left border-2 border-black px-1">Rushing yards per game</th>
-      <th class="text-left border-2 border-black px-1">Total rushing touchdowns</th>
-      <th class="text-left border-2 border-black px-1">Rushing first downs</th>
-      <th class="text-left border-2 border-black px-1">Rushing first down percentage</th>
-      <th class="text-left border-2 border-black px-1">Rushing 20</th>
-      <th class="text-left border-2 border-black px-1">Rushing 40</th>
-      <th class="text-left border-2 border-black px-1">Rushing fumbles</th>
+      <th class="text-left border-2 border-black px-1"><%= gettext("Rushing average yards per attempt") %></th>
+      <th class="text-left border-2 border-black px-1"><%= gettext("Rushing yards per game") %></th>
+      <th class="text-left border-2 border-black px-1"><%= gettext("Total rushing touchdowns") %></th>
+      <th class="text-left border-2 border-black px-1"><%= gettext("Rushing first downs") %></th>
+      <th class="text-left border-2 border-black px-1"><%= gettext("Rushing first down percentage") %></th>
+      <th class="text-left border-2 border-black px-1"><%= gettext("Rushing 20") %></th>
+      <th class="text-left border-2 border-black px-1"><%= gettext("Rushing 40") %></th>
+      <th class="text-left border-2 border-black px-1"><%= gettext("Rushing fumbles") %></th>
       <th class="text-left border-2 border-black px-1">
         <%= live_component ExRushWeb.OrderByComponent, title: gettext("Longest rush"), order_by: "longest_rush" %>
       </th>

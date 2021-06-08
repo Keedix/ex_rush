@@ -1,4 +1,8 @@
 defmodule ExRush.Release do
+  @moduledoc """
+  Module resposible for migration in the release mod. Used in the production env.
+  """
+
   @app :ex_rush
 
   def migrate do
