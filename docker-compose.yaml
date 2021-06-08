@@ -1,34 +1,40 @@
 version: '3.6'
 services:
   postgres:
-    image: postgres:13.1
-    hostname: ex_postgres
-    healthcheck:
-      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root" ]
-      timeout: 45s
-      interval: 10s
-      retries: 10
+    image: postgres:10.5
     restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - APP_DB_USER=docker
-      - APP_DB_PASS=docker
-      - APP_DB_NAME=docker
-    volumes:
-      - ./db:/docker-entrypoint-initdb.d/
+      - POSTGRES_DB=ex_rush_db
     ports:
       - 5432:5432
+    expose:
+      - 5432
+    volumes: 
+      - ./postgres:/var/lib/postgresql/data
+      # copy the sql script to create tables
+      # - ./db:/docker-entrypoint-initdb.d
   web:
     build: .
     depends_on:
       - postgres
     hostname: ex_rush
     environment:
-      MIX_ENV: prod
+       - MIX_ENV=prod
+       - SECRET_KEY_BASE=ySL8AqMqwi9K32qi+O6VaDikKo4kx2Ls3iFefpghQjkLjung9fIJoaHBX7WTLoDX
+       - DB_NAME=ex_rush_db
+       - DB_PORT=5432
+       - DB_USERNAME=postgres
+       - DB_PASSWORD=postgres
+       - DB_HOSTNAME=postgres
+       - POOL_SIZE=10
+       - PORT=4000
+       - HOST=localhost
     env_file:
       - .env
     ports:
       - '4000:4000'
-    volumes:
-      - .:/app
+
+volumes:
+  postgres:

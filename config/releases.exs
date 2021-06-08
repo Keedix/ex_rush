@@ -19,12 +19,16 @@ secret_key_base =
     You can generate one by calling: mix phx.gen.secret
     """
 
+port = String.to_integer(String.to_integer(System.get_env("PORT") || "4000"))
+
 config :ex_rush, ExRushWeb.Endpoint,
   http: [
-    port: String.to_integer(System.get_env("PORT") || "4000"),
+    port: port,
     transport_options: [socket_opts: [:inet6]]
   ],
+  url: [host: System.get_env("HOST"), port: port],
   secret_key_base: secret_key_base,
+  check_origin: ["http://localhost:4000"],
   server: true
 
 # ## Using releases (Elixir v1.9+)
