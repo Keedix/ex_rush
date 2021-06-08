@@ -47,7 +47,7 @@ defmodule ExRush.Statistics do
     Repo.all(query)
   end
 
-  defp prefix_search(term), do: String.replace(term, ~r/\W/u, "") <> ":*"
+  defp prefix_search(term), do: String.replace(term, ~r/\ /u, " & ") <> ":*"
 
   @doc """
   Returns the list of ordered by `order_by` statistics.
