@@ -31,8 +31,6 @@ services:
        - POOL_SIZE=10
        - PORT=4000
        - HOST=localhost
-    env_file:
-      - .env
     ports:
       - '4000:4000'
 
